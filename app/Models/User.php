@@ -44,4 +44,8 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token){
         $this->notify(new ResetPassword($token));
     }
+
+    public function statuses(){
+        return $this->hasMany(Status::class);
+    }
 }
