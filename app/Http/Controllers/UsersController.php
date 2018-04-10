@@ -12,7 +12,7 @@ class UsersController extends Controller
 {
     public function __construct(){
         $this->middleware('auth',[
-            'except'=>['show', 'create', 'store', 'index', 'confirmEmail']
+            'except'=>['show', 'create', 'store', 'index', 'confirmEmail', 'followers', 'followings']
         ]);
         $this->middleware('guest', [
             'only' =>['create']
@@ -102,5 +102,17 @@ class UsersController extends Controller
             $message->to($to)->subject($subject);
         });
 
+    }
+
+    public function followings(User $user){
+        $users = $user->followings()->paginate(30);
+        $title="关注的人";
+        return view('users.show_follow', compact('users', 'title'));
+    }
+
+    public function followers(User $user){
+        $users = $user->followers()->paginate(30);
+        $title = '粉丝';
+        return view('users.show_follow', compact('users', 'title'));
     }
 }
